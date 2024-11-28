@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/my.css">
+  <title>Добавить объявление - GET PET BACK</title>
+</head>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+ 
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+ 
+    main {
+      padding: 20px;
+    }
+ 
+    .search-box {
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+ 
+    .search-box input, .search-box button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+ 
+    .search-box button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+ 
+    .search-box button:hover {
+      background-color: #0056b3;
+    }
+ 
+    .ad {
+      background-color: #ffffff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+ 
+    .ad img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover; /* сохраняет пропорции изображения и обрезает его, если необходимо */
+      border-radius: 8px;
+    }
+ 
+    .ad p {
+      margin: 5px 0;
+    }
+ 
+    footer {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+    .nav-link {
+        color: white;
+    }
+
+    .search-box {
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    /* Скрытие блока паролей по умолчанию */
+    .password-section {
+      display: none;
+    }
+
+    /* Показываем блок паролей, если чекбокс выбран */
+    #autoRegister:checked ~ .password-section {
+      display: block;
+    }
+
+    .search-box input, .search-box button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .ad {
+      background-color: #ffffff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+<body>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><img src="img/logo.jpg" class="w-25 rounded-3" alt="logo"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Главная</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Личный кабинет</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registrationModal">Регистрация</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="add_pet.html">Добавить объявление</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search.html">Поиск по объявлениям</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<!-- Модальное окно -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="loginModalLabel">Вход</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="loginForm">
+                  <div class="mb-3">
+                      <label for="loginInput" class="form-label"><i class="bi bi-person"></i> Логин</label>
+                      <input type="text" class="form-control" id="loginInput" placeholder="Введите логин">
+                  </div>
+                  <div class="mb-3">
+                      <label for="passwordInput" class="form-label"><i class="bi bi-lock"></i> Пароль</label>
+                      <input type="password" class="form-control" id="passwordInput" placeholder="Введите пароль">
+                  </div>
+                  <div class="form-check mb-3">
+                      <input type="checkbox" class="form-check-input" id="rememberMe">
+                      <label class="form-check-label" for="rememberMe">Запомнить меня</label>
+                  </div>
+                  
+                  <!-- Привязка к функции login() -->
+                  <button type="submit" class="btn btn-primary w-100" onclick="login(event)">Войти</button>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#registrationModal">Регистрация</a>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#forgotLoginModal">Забыли логин?</a>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Забыли пароль?</a>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registrationModalLabel">Регистрация</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          <form id="registrationForm">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">Имя</label>
+              <input type="text" class="form-control" id="firstName" placeholder="Введите имя" required>
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Фамилия</label>
+              <input type="text" class="form-control" id="lastName" placeholder="Введите фамилию" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Электронная почта</label>
+              <input type="email" class="form-control" id="email" placeholder="Введите электронную почту" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Пароль</label>
+              <input type="password" class="form-control" id="password" placeholder="Введите пароль" required>
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+              <input type="password" class="form-control" id="confirmPassword" placeholder="Повторите пароль" required>
+            </div>
+            <p class="error text-danger" id="errorMessage"></p>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="submitForm()">Зарегистрироваться</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно восстановления логина -->
+<div class="modal fade" id="forgotLoginModal" tabindex="-1" aria-labelledby="forgotLoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="forgotLoginModalLabel">Восстановление логина</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          <p>Введите адрес электронной почты, связанный с вашим аккаунтом. Мы отправим вам ваш логин.</p>
+          <form id="forgotLoginForm">
+            <div class="mb-3">
+              <label for="forgotEmail" class="form-label">Электронная почта</label>
+              <input type="email" class="form-control" id="forgotEmail" placeholder="Введите ваш e-mail" required>
+            </div>
+            <button type="button" class="btn btn-primary w-100" onclick="sendLoginRecovery()">Отправить</button>
+          </form>
+          <p id="recoveryMessage" class="text-success mt-3" style="display:none;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно восстановления пароля -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="forgotPasswordModalLabel">Восстановление пароля</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          <p>Введите адрес электронной почты, связанный с вашим аккаунтом. Мы отправим вам инструкции по сбросу пароля.</p>
+          <form id="forgotPasswordForm">
+            <div class="mb-3">
+              <label for="forgotPasswordEmail" class="form-label">Электронная почта</label>
+              <input type="email" class="form-control" id="forgotPasswordEmail" placeholder="Введите ваш e-mail" required>
+            </div>
+            <button type="button" class="btn btn-primary w-100" onclick="sendPasswordRecovery()">Отправить</button>
+          </form>
+          <p id="passwordRecoveryMessage" class="text-success mt-3" style="display:none;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<main class="container mt-5">
+  <h2 class="text-center mb-4">Добавить объявление о животном</h2>
+  <form id="addPetForm">
+    <div class="mb-3">
+      <label for="animalType" class="form-label">Вид животного</label>
+      <input type="text" class="form-control" id="animalType" placeholder="Введите вид животного (например, кошка, собака)" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="animalDescription" class="form-label">Описание</label>
+      <textarea class="form-control" id="animalDescription" rows="3" placeholder="Введите описание животного" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="chipNumber" class="form-label">Номер чипа (если есть)</label>
+      <input type="text" class="form-control" id="chipNumber" placeholder="Введите номер чипа">
+    </div>
+
+    <div class="mb-3">
+      <label for="area" class="form-label">Район</label>
+      <input type="text" class="form-control" id="area" placeholder="Введите район, где найдено или потеряно животное" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="date" class="form-label">Дата</label>
+      <input type="date" class="form-control" id="date" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="petImage" class="form-label">Изображение животного</label>
+      <input type="file" class="form-control" id="petImage" accept="image/*">
+    </div>
+
+    <!-- Новое поле для выбора регистрации -->
+    <div class="form-check mb-3">
+      <input type="checkbox" class="form-check-input" id="autoRegister">
+      <label class="form-check-label" for="autoRegister">Зарегистрировать меня автоматически</label>
+    </div>
+
+    <!-- Блок с полями пароля -->
+    <div class="password-section">
+      <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password"
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}"
+               placeholder="Введите пароль" required>
+      </div>
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Подтверждение пароля</label>
+        <input type="password" class="form-control" id="confirmPassword"
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}"
+               placeholder="Повторите пароль" required>
+      </div>
+    </div>
+    
+
+    <button type="submit" class="btn btn-primary w-100">Добавить объявление</button>
+  </form>
+
+  <div id="successMessage" class="alert alert-success mt-4" style="display:none;">
+    Объявление успешно добавлено!
+  </div>
+</main>
+
+<footer class="border-bottom bg-primary mt-5">
+  <p class="text-white p-3">GET PET BACK © Copyright, 2024</p>
+  <p class="text-white p-3">Все права защищены</p>
+</footer>
+
+<script>
+  // Получаем ссылки на элементы
+const autoRegisterCheckbox = document.getElementById('autoRegister');
+const passwordSection = document.querySelector('.password-section');
+const addPetForm = document.getElementById('addPetForm');
+const successMessage = document.getElementById('successMessage');
+
+// Показать или скрыть блок с паролем при изменении состояния чекбокса
+autoRegisterCheckbox.addEventListener('change', function () {
+  if (this.checked) {
+    passwordSection.style.display = 'block';
+  } else {
+    passwordSection.style.display = 'none';
+  }
+});
+
+// Обработка отправки формы
+addPetForm.addEventListener('submit', function (event) {
+  event.preventDefault(); // Останавливаем стандартное поведение отправки формы
+
+  // Проверяем, выбран ли чекбокс для автоматической регистрации
+  if (autoRegisterCheckbox.checked) {
+    // Проверяем корректность пароля
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (!validatePassword(password)) {
+      alert('Пароль должен содержать не менее 7 символов, одну цифру, одну строчную и одну заглавную букву.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('Пароли не совпадают!');
+      return;
+    }
+  }
+
+  // Показываем сообщение об успешной отправке формы
+  successMessage.style.display = 'block';
+  addPetForm.reset(); // Сбрасываем форму
+  passwordSection.style.display = 'none'; // Скрываем блок паролей
+});
+
+// Функция для проверки корректности пароля
+function validatePassword(password) {
+  // Проверяем, содержит ли пароль хотя бы одну цифру, одну строчную и одну заглавную букву, и не менее 7 символов
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}$/;
+  return passwordRegex.test(password);
+}
+
+</script>
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+
+</html>

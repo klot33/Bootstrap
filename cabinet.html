@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/my.css">
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+ 
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+ 
+    main {
+      padding: 20px;
+      flex-grow: 1;
+    }
+ 
+    .search-box {
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+ 
+    .search-box input, .search-box button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+ 
+    .search-box button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+ 
+    .search-box button:hover {
+      background-color: #0056b3;
+    }
+ 
+    .ad {
+      background-color: #ffffff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+ 
+    .ad img {
+      width: 250px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+ 
+    .ad p {
+      margin: 5px 0;
+    }
+ 
+    footer {
+      background-color: #007bff;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+      
+    }
+
+    .nav-link {
+        color: white;
+    }
+
+    footer p {
+        color: white;
+    }
+    
+  </style>
+<body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="index.html"><img src="img/logo.jpg" class="w-25 rounded-3" alt="logo"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="index.html">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Личный кабинет</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registrationModal">Регистрация</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="add_pet.html">Добавить объявление</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="search.html">Поиск по объявлениям</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+        </header>
+    </nav>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Вход</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="loginInput" class="form-label"><i class="bi bi-person"></i> Логин</label>
+                        <input type="text" class="form-control" id="loginInput" placeholder="Введите логин">
+                    </div>
+                    <div class="mb-3">
+                        <label for="passwordInput" class="form-label"><i class="bi bi-lock"></i> Пароль</label>
+                        <input type="password" class="form-control" id="passwordInput" placeholder="Введите пароль">
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Запомнить меня</label>
+                    </div>
+                    
+                    <!-- Привязка к функции login() -->
+                    <button type="submit" class="btn btn-primary w-100" onclick="login(event)">Войти</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#registrationModal">Регистрация</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#forgotLoginModal">Забыли логин?</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Забыли пароль?</a>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registrationModalLabel">Регистрация</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <form id="registrationForm">
+              <div class="mb-3">
+                <label for="firstName" class="form-label">Имя</label>
+                <input type="text" class="form-control" id="firstName" placeholder="Введите имя" required>
+              </div>
+              <div class="mb-3">
+                <label for="lastName" class="form-label">Фамилия</label>
+                <input type="text" class="form-control" id="lastName" placeholder="Введите фамилию" required>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Электронная почта</label>
+                <input type="email" class="form-control" id="email" placeholder="Введите электронную почту" required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password" class="form-control" id="password" placeholder="Введите пароль" required>
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Повторите пароль" required>
+              </div>
+              <p class="error text-danger" id="errorMessage"></p>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="submitForm()">Зарегистрироваться</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Модальное окно восстановления логина -->
+  <div class="modal fade" id="forgotLoginModal" tabindex="-1" aria-labelledby="forgotLoginModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forgotLoginModalLabel">Восстановление логина</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <p>Введите адрес электронной почты, связанный с вашим аккаунтом. Мы отправим вам ваш логин.</p>
+            <form id="forgotLoginForm">
+              <div class="mb-3">
+                <label for="forgotEmail" class="form-label">Электронная почта</label>
+                <input type="email" class="form-control" id="forgotEmail" placeholder="Введите ваш e-mail" required>
+              </div>
+              <button type="button" class="btn btn-primary w-100" onclick="sendLoginRecovery()">Отправить</button>
+            </form>
+            <p id="recoveryMessage" class="text-success mt-3" style="display:none;"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Модальное окно восстановления пароля -->
+  <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forgotPasswordModalLabel">Восстановление пароля</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <p>Введите адрес электронной почты, связанный с вашим аккаунтом. Мы отправим вам инструкции по сбросу пароля.</p>
+            <form id="forgotPasswordForm">
+              <div class="mb-3">
+                <label for="forgotPasswordEmail" class="form-label">Электронная почта</label>
+                <input type="email" class="form-control" id="forgotPasswordEmail" placeholder="Введите ваш e-mail" required>
+              </div>
+              <button type="button" class="btn btn-primary w-100" onclick="sendPasswordRecovery()">Отправить</button>
+            </form>
+            <p id="passwordRecoveryMessage" class="text-success mt-3" style="display:none;"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Добро пожаловать, <span id="userName">Иван Иванов</span>!</h1>
+
+        <div class="row">
+            <!-- Личная информация -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-person-circle"></i> Личная информация</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Имя:</strong> Иван Иванов</p>
+                        <p><strong>Дата рождения:</strong> 15 марта 1990</p>
+                        <p><strong>Email:</strong> ivan@example.com</p>
+                        <p><strong>Телефон:</strong> +7 (900) 123-45-67</p>
+                        <button class="btn btn-primary mt-3">Редактировать профиль</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Настройки -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-gear"></i> Настройки аккаунта</h5>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="emailNotification" class="form-label">Уведомления по электронной почте</label>
+                                <select id="emailNotification" class="form-select">
+                                    <option selected>Включены</option>
+                                    <option>Отключены</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="changePassword" class="form-label">Изменить пароль</label>
+                                <input type="password" class="form-control" id="changePassword" placeholder="Введите новый пароль">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Уведомления -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-bell"></i> Уведомления</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">Ваш профиль успешно обновлен.</li>
+                            <li class="list-group-item">Срок действия подписки истекает через 3 дня.</li>
+                            <li class="list-group-item">Новое сообщение от службы поддержки.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Контакты поддержки -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-envelope"></i> Контакты поддержки</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Email:</strong> support@example.com</p>
+                        <p><strong>Телефон:</strong> +7 (800) 555-35-35</p>
+                        <p><strong>Часы работы:</strong> Пн-Пт, 9:00 - 18:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Карточки товаров животных -->
+    <h2 class="mt-5 text-center">Потерянные питомцы</h2>
+    <div class="row mt-3 justify-content-center d-flex">
+        <div class="col-md-2 d-flex justify-content-center">
+            <div class="ad ">
+                <img src="img/dog.jpg" alt="Собака">
+                <h5>Собака: Дружок</h5>
+                <p><strong>Возраст:</strong> 2 года</p>
+                <p><strong>Описание:</strong> Дружелюбный и энергичный пес, любит детей и прогулки.</p>
+                <button class="btn btn-primary w-100">Подробнее</button>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+            <div class="ad">
+                <img src="img/scale_1200.jfif" alt="Кот">
+                <h5>Кот: Маркиз</h5>
+                <p><strong>Возраст:</strong> 3 года</p>
+                <p><strong>Описание:</strong> Спокойный и ласковый кот, отлично подходит для квартиры.</p>
+                <button class="btn btn-primary w-100">Подробнее</button>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center">
+            <div class="ad">
+                <img src="img/parrot.jpg" alt="Попугай">
+                <h5>Попугай: Кеша</h5>
+                <p><strong>Возраст:</strong> 1 год</p>
+                <p><strong>Описание:</strong> Говорящий попугай, любит играть и изучать новые слова.</p>
+                <button class="btn btn-primary w-100">Подробнее</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 mt-4">
+        <p>© 2024 Личный кабинет. Все права защищены.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

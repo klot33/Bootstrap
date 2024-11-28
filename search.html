@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/my.css">
+  <title>Поиск животных</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+ 
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+ 
+    main {
+      padding: 20px;
+    }
+ 
+    .search-box {
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+ 
+    .search-box input, .search-box button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+ 
+    .search-box button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+ 
+    .search-box button:hover {
+      background-color: #0056b3;
+    }
+ 
+    .ad {
+      background-color: #ffffff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+ 
+    .ad img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+ 
+    .ad p {
+      margin: 5px 0;
+    }
+ 
+    footer {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+
+    .nav-link {
+        color: white;
+    }
+  </style>
+</head>
+<body>
+ 
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html"><img src="img/logo.jpg" class="w-25 rounded-3" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html">Главная</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Личный кабинет</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registrationModal">Регистрация</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="add_pet.html">Добавить объявление</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="search.html">Поиск по объявлениям</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+</header>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="loginModalLabel">Вход</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="loginForm">
+                  <div class="mb-3">
+                      <label for="loginInput" class="form-label"><i class="bi bi-person"></i> Логин</label>
+                      <input type="text" class="form-control" id="loginInput" placeholder="Введите логин">
+                  </div>
+                  <div class="mb-3">
+                      <label for="passwordInput" class="form-label"><i class="bi bi-lock"></i> Пароль</label>
+                      <input type="password" class="form-control" id="passwordInput" placeholder="Введите пароль">
+                  </div>
+                  <div class="form-check mb-3">
+                      <input type="checkbox" class="form-check-input" id="rememberMe">
+                      <label class="form-check-label" for="rememberMe">Запомнить меня</label>
+                  </div>
+                  
+                  <!-- Привязка к функции login() -->
+                  <button type="submit" class="btn btn-primary w-100" onclick="login(event)">Войти</button>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#registrationModal">Регистрация</a>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#forgotLoginModal">Забыли логин?</a>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Забыли пароль?</a>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registrationModalLabel">Регистрация</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <form id="registrationForm">
+          <div class="mb-3">
+            <label for="firstName" class="form-label">Имя</label>
+            <input type="text" class="form-control" id="firstName" placeholder="Введите имя" required>
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Фамилия</label>
+            <input type="text" class="form-control" id="lastName" placeholder="Введите фамилию" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Электронная почта</label>
+            <input type="email" class="form-control" id="email" placeholder="Введите электронную почту" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+            <input type="password" class="form-control" id="password" placeholder="Введите пароль" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Повторите пароль" required>
+          </div>
+          <p class="error text-danger" id="errorMessage"></p>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="submitForm()">Зарегистрироваться</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно восстановления логина -->
+<div class="modal fade" id="forgotLoginModal" tabindex="-1" aria-labelledby="forgotLoginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forgotLoginModalLabel">Восстановление логина</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <p>Введите адрес электронной почты, связанный с вашим аккаунтом. Мы отправим вам ваш логин.</p>
+        <form id="forgotLoginForm">
+          <div class="mb-3">
+            <label for="forgotEmail" class="form-label">Электронная почта</label>
+            <input type="email" class="form-control" id="forgotEmail" placeholder="Введите ваш e-mail" required>
+          </div>
+          <button type="button" class="btn btn-primary w-100" onclick="sendLoginRecovery()">Отправить</button>
+        </form>
+        <p id="recoveryMessage" class="text-success mt-3" style="display:none;"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно восстановления пароля -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forgotPasswordModalLabel">Восстановление пароля</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <p>Введите адрес электронной почты, связанный с вашим аккаунтом. Мы отправим вам инструкции по сбросу пароля.</p>
+        <form id="forgotPasswordForm">
+          <div class="mb-3">
+            <label for="forgotPasswordEmail" class="form-label">Электронная почта</label>
+            <input type="email" class="form-control" id="forgotPasswordEmail" placeholder="Введите ваш e-mail" required>
+          </div>
+          <button type="button" class="btn btn-primary w-100" onclick="sendPasswordRecovery()">Отправить</button>
+        </form>
+        <p id="passwordRecoveryMessage" class="text-success mt-3" style="display:none;"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<main>
+  <div class="search-box">
+    <h3>Поиск</h3>
+    <input type="text" id="regionInput" placeholder="Район">
+    <input type="text" id="animalTypeInput" placeholder="Вид животного">
+    <button onclick="searchAds()">Найти</button>
+  </div>
+ 
+  <div id="adsContainer">
+    <!-- Объявления появятся здесь -->
+  </div>
+</main>
+ 
+<footer class="border-bottom bg-primary">
+  <p class="text-white p-3">GET PET BACK © Copyright, 2024</p>
+  <p class="text-white p-3">Все права защищены</p>
+</footer>
+ <script>
+  const ads = [
+    {
+      id: 18,
+      type: "Коза",
+      description: "Потерялась коза, последний раз видели в здании Московского вокзала г. Санкт-Петербург. Коза белая, пуховая.",
+      chipNumber: "go-011-spb",
+      region: "Центральный",
+      date: "14-03-2022",
+      image: "img/koza.jpg"
+    },
+    {
+      id: 14,
+      type: "Кошка",
+      description: "Потерялась кошка, пушистая, серая. Любит играть, ласковая.",
+      chipNumber: "ca-001-spb",
+      region: "Василиостровский",
+      date: "24-03-2020",
+      image: "img/scale_1200.jfif"
+    },
+    {
+      id: 42,
+      type: "Собака",
+      description: "Собака рыжая, была утеряна в красногвардейском районе.",
+      chipNumber: "do-123-spb",
+      region: "Красногвардейский",
+      date: "22-07-2023",
+      image: "img/dog.jpg"
+    }
+  ];
+ 
+  function displayAds(filteredAds) {
+    const adsContainer = document.getElementById('adsContainer');
+    adsContainer.innerHTML = '';
+    if (filteredAds.length === 0) {
+      adsContainer.innerHTML = '<p>Объявлений не найдено.</p>';
+      return;
+    }
+    filteredAds.forEach(ad => {
+      const adElement = document.createElement('div');
+      adElement.className = 'ad';
+      adElement.innerHTML = `
+        <img src="${ad.image}" alt="${ad.type}">
+        <p><strong>ID:</strong> ${ad.id}</p>
+        <p><strong>Вид животного:</strong> ${ad.type}</p>
+        <p><strong>Описание:</strong> ${ad.description}</p>
+        <p><strong>Номер чипа:</strong> ${ad.chipNumber}</p>
+        <p><strong>Район:</strong> ${ad.region}</p>
+        <p><strong>Дата:</strong> ${ad.date}</p>
+      `;
+      adsContainer.appendChild(adElement);
+    });
+  }
+ 
+  function searchAds() {
+    const region = document.getElementById('regionInput').value.trim();
+    const animalType = document.getElementById('animalTypeInput').value.trim().toLowerCase();
+    const filteredAds = ads.filter(ad => {
+      const matchesRegion = region ? ad.region === region : true;
+      const matchesType = animalType ? ad.type.toLowerCase().includes(animalType) : true;
+      return matchesRegion && matchesType;
+    });
+    displayAds(filteredAds);
+  }
+ 
+  displayAds(ads);
+ </script>
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
